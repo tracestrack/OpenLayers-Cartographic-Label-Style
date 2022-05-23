@@ -1,5 +1,4 @@
-# OpenLayers-OpenStreetMap-Cartographic-Label-Style
-
+# OpenLayers Cartographic Label Style
 
 ## What
 
@@ -23,7 +22,7 @@ in near future.
 
 Tracestrack Carto base map is used as background. A key is provisioned for
 `http://localhost:8000` and
-`https://tracestrack.github.io/OpenLayers-OpenStreetMap-Cartographic-Label-Style/`.
+`https://tracestrack.github.io/OpenLayers-Cartographic-Label-Style`.
 
 ## How to run locally
 
