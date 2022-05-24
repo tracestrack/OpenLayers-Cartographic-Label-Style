@@ -8,7 +8,8 @@ method has following benefits:
 
 1. most time consuming rendering is still done at server side
 2. preserving detailed mapnik-generated base map
-2. enabling more sophisticated multi-language, region-specific rendering support
+3. enabling more sophisticated multi-language, region-specific rendering support
+4. enabling better interaction with OSM object
 
 ## Vector tile source
 

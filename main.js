@@ -1,80 +1,20 @@
-function createLabelStyle(size) {
-  return new ol.style.Style({
-    text: new ol.style.Text({
-      font: size + 'px Calibri,sans-serif',
-      overflow: true,
-      fill: new ol.style.Fill({
-        color: '#000',
-      }),
-      stroke: new ol.style.Stroke({
-        color: '#fff',
-        width: 3,
-      }),
-    }),
-  });
-}
-
-const areaStyle = new ol.style.Style({
-  fill: new ol.style.Fill({
-    color: 'rgba(255, 255, 255, 0.6)',
-  }),
-  stroke: new ol.style.Stroke({
-    color: '#319FD3',
-    width: 1,
-  }),
-});
-//const style = [labelStyle];
 let layer= new ol.layer.VectorTile({
   declutter: true,
   source: new ol.source.VectorTile({
+    attributions: [ol.source.OSM.ATTRIBUTION],
     format: new ol.format.MVT(),
-    url: 'https://took.paulnorman.ca/tiles/dev/{z}/{x}/{y}.mvt'
+    url: 'https://took.paulnorman.ca/tiles/dev/{z}/{x}/{y}.mvt',
+    maxZoom: 12
   }),
   style: function (feature) {
     if (feature.get('name')) {
-      let prop = feature.getProperties()
-      //console.log(prop)
-
-      var labelStyle;
-      const label = feature.get('name').split(' ').join('\n');
-
-      if (prop.layer == "admin-names") {
-        if (prop.admin_level == 2) {
-          // country
-          labelStyle = createLabelStyle(18);
-        }
-        else if (prop.admin_level == 4) {
-          // state
-          labelStyle = createLabelStyle(16);
-        }
-        else {
-          labelStyle = createLabelStyle(14);
-        }
-
-        labelStyle.getText().setText(label);
-      }
-      else if (prop.layer == "place-names") {
-        if (prop.place == "city") {
-          labelStyle = createLabelStyle(12);
-        }
-        else if (prop.place == "town") {
-          labelStyle = createLabelStyle(11);
-        }
-        else if (prop.place == "village") {
-          labelStyle = createLabelStyle(10);
-        }
-        else {
-          labelStyle = createLabelStyle(9);
-        }
-
-        labelStyle.getText().setText(label);
-      }
-      return labelStyle;
+      return renderText(feature)
     }
-
+    else {
+      return renderArea(feature)
+    }
   }
 });
-
 
 var source = new ol.source.XYZ({
   imageSmoothing: true,
@@ -84,6 +24,21 @@ var source = new ol.source.XYZ({
   tilePixelRatio: 2
 });
 
+
+if (window.location.href.indexOf("#") > -1) {
+  qstr = window.location.href.split("#")[1];
+}
+else {
+  qstr = "6/48.7089/12.1093"
+}
+
+let urlQueryStringArray = qstr.split("/");
+
+if (urlQueryStringArray.length >= 3) {
+  lonlat = [urlQueryStringArray[2], urlQueryStringArray[1]];
+  zoom = urlQueryStringArray[0]
+}
+
 var map = new ol.Map({
   target: 'map',
   layers: [
@@ -92,10 +47,24 @@ var map = new ol.Map({
     })
   ],
   view: new ol.View({
-    center: ol.proj.fromLonLat([37.41, 8.82]),
-    zoom: 4
+    center: ol.proj.fromLonLat(lonlat),
+    zoom: zoom,
   })
 });
 
-
 map.addLayer(layer);
+
+function setURL(lonlat, zoom) {
+  let qstr = zoom.toFixed(0) + "/" + lonlat[1].toFixed(4) + "/" + lonlat[0].toFixed(4);
+  window.location.href = "#" + qstr
+}
+
+map.on('moveend', onMoveEnd);
+
+function onMoveEnd(evt) {
+  var map = evt.map;
+  let z = map.getView().getZoom();
+  let center = ol.proj.toLonLat(map.getView().getCenter());
+
+  setURL(center, z);
+}
