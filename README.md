@@ -4,7 +4,7 @@
 
 This style aims to make a feature-rich vector overlay on top of Tracestrack Carto
 base map. Compared with pure raster style and pure vector style, this "hybrid"
-method has following benefits:
+approach has following benefits:
 
 1. most time consuming rendering is still done at server side
 2. preserving detailed mapnik-generated base map
@@ -32,4 +32,10 @@ Tracestrack Carto base map is used as background. A key is provisioned for
 
 ## How to contribute
 
-To be written.
+Ideas, issues and pull requests are all welcome.
+
+## Legal and license
+
+The code and cartography is licensed under CC0 as described in [LICENSE.txt](LICENSE.txt).
+
+OpenStreetMap is a trademark of the OpenStreetMap Foundation, and is used with their permission. This project is not endorsed by or affiliated with the OpenStreetMap Foundation.
