@@ -4,22 +4,21 @@ let layer= new ol.layer.VectorTile({
     attributions: [ol.source.OSM.ATTRIBUTION],
     format: new ol.format.MVT(),
     url: 'https://took.paulnorman.ca/tiles/dev/{z}/{x}/{y}.mvt',
+    //url: 'http://10.1.0.43:8000/tiles/dev/{z}/{x}/{y}.mvt',
     maxZoom: 12
   }),
   style: function (feature) {
-    if (feature.get('name')) {
-      return renderText(feature)
-    }
-    else {
-      return renderArea(feature)
-    }
+    var s = [];
+    if (renderText(feature)) s.push(renderText(feature));
+    if (renderArea(feature)) s.push(renderArea(feature));
+    return s;
   }
 });
 
 var source = new ol.source.XYZ({
   imageSmoothing: true,
   transition: 0,
-  urls: ['https://tile.tracestrack.com/base/{z}/{x}/{y}.png?key=649412ac7aeca8a00a152a79c7e7af37'],
+ urls: ['https://tile.tracestrack.com/base/{z}/{x}/{y}.png?key=649412ac7aeca8a00a152a79c7e7af37'],
   crossOrigin: null,
   tilePixelRatio: 2
 });
@@ -46,9 +45,11 @@ var map = new ol.Map({
       source: source
     })
   ],
+  controls: [new ol.control.Attribution({collapsible: true}), new ol.control.Zoom({className: "zoomControl"})],
   view: new ol.View({
     center: ol.proj.fromLonLat(lonlat),
     zoom: zoom,
+    constrainResolution : true,
   })
 });
 
