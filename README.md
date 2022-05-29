@@ -36,6 +36,6 @@ Ideas, issues and pull requests are all welcome.
 
 ## Legal and license
 
-The code and cartography is licensed under CC0 as described in [LICENSE.txt](LICENSE.txt).
+The code and cartography is licensed under CC0 as described in [LICENSE](LICENSE).
 
 OpenStreetMap is a trademark of the OpenStreetMap Foundation, and is used with their permission. This project is not endorsed by or affiliated with the OpenStreetMap Foundation.
